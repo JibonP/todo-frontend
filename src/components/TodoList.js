@@ -12,33 +12,43 @@ const TodoList = () => {
   }, []);
 
   const fetchTasks = async () => {
-    const response = await axios.get("http://127.0.0.1:8000/api/tasks/");
+    const response = await axios.get(
+      "http://ec2-3-19-67-200.us-east-2.compute.amazonaws.com:8000/api/tasks/"
+    );
     setTasks(response.data);
   };
 
   const handleAddTask = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://127.0.0.1:8000/api/tasks/", {
-      name,
-      task,
-      completed: false,
-    });
+    const response = await axios.post(
+      "http://ec2-3-19-67-200.us-east-2.compute.amazonaws.com:8000/api/tasks/",
+      {
+        name,
+        task,
+        completed: false,
+      }
+    );
     setTasks([...tasks, response.data]);
     setTask("");
     setName("");
   };
 
   const handleDeleteTask = async (id) => {
-    await axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`);
+    await axios.delete(
+      `http://ec2-3-19-67-200.us-east-2.compute.amazonaws.com:8000/api/tasks/${id}/`
+    );
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const handleToggleComplete = async (id) => {
     const taskToUpdate = tasks.find((task) => task.id === id);
-    const response = await axios.put(`http://127.0.0.1:8000/api/tasks/${id}/`, {
-      ...taskToUpdate,
-      completed: !taskToUpdate.completed,
-    });
+    const response = await axios.put(
+      `http://ec2-3-19-67-200.us-east-2.compute.amazonaws.com:8000/api/tasks/${id}/`,
+      {
+        ...taskToUpdate,
+        completed: !taskToUpdate.completed,
+      }
+    );
     setTasks(tasks.map((task) => (task.id === id ? response.data : task)));
   };
 
